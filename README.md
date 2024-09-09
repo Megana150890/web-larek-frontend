@@ -245,3 +245,14 @@ export type TForm = IContacts & IPayment;
 Расширяет класс Form. Содержит поля данных о почте и телефоне.\
 Конструктор: constructor(container: HTMLFormElement, events: IEvents)\
 Методы -сеттеры  для установки значений phone и email.
+
+#### Класс SucsessOrder
+Реализует класс модальное окно, отвечающее за успешный заказ.
+Расширяеть класс Modal. На кнопку вешается слушатель событияю
+
+Поля класса:
+- _description: HTMLElement - 
+- buttonSucsess: HTMLButtinElement - кнопка
+
+Методы:
+- setTotal -  который устанавливает значение итоговой суммы заказа
