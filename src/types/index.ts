@@ -9,7 +9,7 @@ export interface ICard {
 
 export interface ICatalog {
     cards: ICard[];
-    preview: string;
+    preview: string;  //здесь хранится Id выбранной карточки
 }
 
 export interface IPayment {
@@ -31,6 +31,15 @@ deleteProduct(Id: string): void; //удаляет продукт из корзи
 clearBasket(): void; //очищает корзину
 }
 
+export interface IFormGeneral { // интерфейс для работы с формамами
+formErrors: TFormErrors; // объект с ошибками валидации
+order: TForm; //данные формы заказа
+button: boolean; //состояние кнопки
+checkValidationPayment(error: string): void;
+checkValidationContacts(error: string): void;
+}
+
+export type TFormErrors = Record<keyof TForm, string>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
 export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
 
