@@ -44,3 +44,4 @@ export type TFormErrors = Record<keyof TForm, string>; //создаёт объе
 export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
 
 export type TForm = IContacts & IPayment;
+
