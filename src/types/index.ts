@@ -45,3 +45,10 @@ export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
 
 export type TForm = IContacts & IPayment;
 
+export interface IPage {
+    cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
+    catalog: HTMLElement[] //галлерея товаров
+    cartButtonElement: HTMLElement; // кнопка для открытия корзины.
+}
+
+
