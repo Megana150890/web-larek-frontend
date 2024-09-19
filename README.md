@@ -62,6 +62,9 @@ export interface ICard {
 export interface ICatalog {
     cards: ICard[];
     preview: string;
+     button: boolean;
+     setCatalog( items: ICard[]): void;
+     setPreview( items: ICard): void;
 }
 ```
 
@@ -160,8 +163,8 @@ export type TForm = IContacts & IPayment;
  Класс отвечает за хранение и логику работы с данными карточек(продуктов).\
 Конструктор класса принимает инстант брокера событий\
  В полях класса хранятся следующие данные:
-- _cards: ICard[]; - массив объектов карточек
-- _preview: string;  здесь хранится Id выбранной карточки
+- catalog: ICard[]; - массив объектов карточек
+- preview: string | nill;  здесь хранится Id выбранной карточки
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
 #### `Класс BasketGeneral`
@@ -287,6 +290,7 @@ export type TForm = IContacts & IPayment;
 *Список всех событий, которые могут генерироваться в системе:*\
 *События изменения данных (генерируются классами моделями данных)*
 - `cards:changed` - изменение массива карточек
+- `preview:changed` -изменение выбранной для просотра карточки
 - `basket: changed` - изменение в корзине
 - `formErrors:change` - вызывается в форме и возвращает ошибки
 - `form:reset` - очитска форм

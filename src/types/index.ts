@@ -8,8 +8,11 @@ export interface ICard {
 }
 
 export interface ICatalog {
-    cards: ICard[];
+    catalog: ICard[];
     preview: string;  //здесь хранится Id выбранной карточки
+    button: boolean;
+    setCatalog( items: ICard[]): void; //метод для обновления каталога карточек
+     setPreview( items: ICard): void; //метод для установки картоки для предпросмотра
 }
 
 export interface IPayment {
