@@ -98,9 +98,22 @@ const producttlist =
                 "price": 1000
             }
         ]
-    
-// console.log(producttlist.items)
 
+
+
+// cardsdData.catalog = producttlist;
 cardsdData.setCatalog(producttlist);
 console.log(cardsdData.getCards())
 console.log(cardsdData.getCard("c101ab44-ed99-4a54-990d-47aa2bb4e7d9"))
+console.log(cardsdData.getCard("c101ab44-ed99-4a54-990d-47agtgha2bb4e7d9"))
+
+
+basketData.addProduct({id: '848e86fc0-ca99-4e13-b164-b98d65928b53', title: "UI/UX-карандаш", price: 10000 });
+basketData.addProduct({id: '90973ae5-285c-4b6f-a6d0-65d1d760b102', title: "Бэкенд-антистресс", price: 1000 });
+console.log(basketData.product)
+// basketData.deleteProduct('90973ae5-285c-4b6f-a6d0-65d1d760b102')
+console.log(basketData.product)
+// basketData.clearBasket();
+console.log(basketData.product)
+console.log(basketData.getTotal())
+// basketData.getTotal();
