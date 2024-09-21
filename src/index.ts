@@ -1,6 +1,6 @@
-import { CardsData } from './components/base/CardsData';
-import { FormData } from './components/base/FormData';
-import { BasketData } from './components/base/BasketData';
+import { CardsData } from './components/CardsData'
+import { FormData } from './components/FormData'
+import { BasketData } from './components/BasketData'
 import { EventEmitter } from './components/base/events';
 import './scss/styles.scss';
 // import { BasketData } from './components/common/BasketData';
@@ -9,6 +9,6 @@ import './scss/styles.scss';
 
 const events = new EventEmitter();
 
-const basketData = new BasketData(events);
-const cardsdData = new CardsData(events);
-const formData = new FormData(events);
+const basketData = new BasketData({}, events);
+const cardsdData = new CardsData({}, events);
+const formData = new FormData({}, events);

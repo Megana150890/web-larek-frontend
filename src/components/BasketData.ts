@@ -1,7 +1,7 @@
-import { IBasket } from '../../types';
-import { Model } from './Model';
-import { TProduct } from '../../types';
-import { IEvents } from './events';
+import { IBasket } from '../types';
+import { Model } from './base/Model';
+import { TProduct } from '../types';
+import { IEvents } from './base/events';
 
 export class BasketData extends Model<IBasket> {
 	listProduct: TProduct[] = []; //список продуктов
@@ -20,21 +20,21 @@ export class BasketData extends Model<IBasket> {
 		this.listProduct.push(item);
 		this.product.push(item.title);
 		this.count = this.listProduct.length;
-		this.events.emit('basket: changed');
+		this.events.emit('basket: changed', {listProduct: this.listProduct});
 	}
 
 	deleteProduct(id: string): void {
 		this.listProduct = this.listProduct.filter((item) => item.id !== id);
 		this.product = this.listProduct.map((item) => item.title); //обновляет список продуктов после удаления
 		this.count = this.listProduct.length;
-		this.events.emit('basket: changed');
+		this.events.emit('basket: changed', {listProduct: this.listProduct});
 	}
 
 	clearBasket(): void {
 		this.listProduct = [];
 		this.product = [];
 		this.count = 0;
-		this.events.emit('basket: changed');
+		this.events.emit('basket: changed', {listProduct: this.listProduct});
 	}
 
 	getTotal(): number {

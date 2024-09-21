@@ -1,7 +1,7 @@
-import { ICatalog } from '../../types/index';
-import { Model } from './Model';
-import { ICard } from '../../types/index';
-import { IEvents } from './events';
+import { ICatalog } from '../types/index';
+import { Model } from './base/Model';
+import { ICard } from '../types/index';
+import { IEvents } from './base/events';
 
 export class CardsData extends Model<ICatalog> {
 	catalog: ICard[];
@@ -18,7 +18,7 @@ export class CardsData extends Model<ICatalog> {
 	setCatalog(items: ICard[]): void {
 		//метод для обновления каталога карточек
 		this.catalog = items;
-		this.events.emit('cards:changed');
+		this.events.emit('cards:changed', {catalog: this.catalog});
 	}
 	setPreview(item: ICard): void {
 		//метод для установки картоки для предпросмотра
@@ -28,7 +28,7 @@ export class CardsData extends Model<ICatalog> {
 			this.preview = null;
 		}
 
-		this.events.emit('preview:changed');
+		this.events.emit('preview:changed', item);
 	}
 
 	// toggleButton(state: boolean) {

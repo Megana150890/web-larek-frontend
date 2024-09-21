@@ -1,7 +1,7 @@
-import { Model } from './Model';
-import { TFormErrors } from '../../types/index';
-import { TForm } from '../../types/index';
-import { IFormData } from '../../types/index';
+import { Model } from './base/Model';
+import { TFormErrors } from '../types/index';
+import { TForm } from '../types/index';
+import { IFormData } from '../types/index';
 
 export class FormData extends Model<IFormData> {
 	order: TForm = {
