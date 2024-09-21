@@ -1,10 +1,11 @@
 export interface ICard {
 	id: string;
+    category: string;
 	description: string;
     price: number;
     image:string;
 	title: string;
-	category: string;
+	
 }
 
 export interface ICatalog {
