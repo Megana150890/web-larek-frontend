@@ -20,9 +20,18 @@ setCatalog( items: ICard[]): void { //метод для обновления к�
     this.events.emit('cards:changed')
 } 
 setPreview( item: ICard): void { //метод для установки картоки для предпросмотра
- this.preview = item.id
+    if(item) {
+        this.preview = item.id //устанавливаем id карточки
+    }
+    else {
+        this.preview = null
+    }
+ 
  this.events.emit('preview:changed')
 } 
 
+// toggleButton(state: boolean) {
+//     this.button = state;
+// }
 
 }

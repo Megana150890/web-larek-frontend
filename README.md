@@ -167,7 +167,7 @@ export type TForm = IContacts & IPayment;
 - preview: string | nill;  здесь хранится Id выбранной карточки
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
-#### `Класс BasketGeneral`
+#### `Класс BasketData`
 Класс отвечает за работу с корзиной.\
 В полях класса хранятся следующие данные:
 - listProduct: TProduct[] -  список продуктов
@@ -175,7 +175,7 @@ export type TForm = IContacts & IPayment;
 - product: string[]-  список названий продуктов.
 
 Так же класс предоставляет набор методов для взаимодействия с этими данными:
-- addProduct(items: TProduct): void- добавляет продукт в корзину
+- addProduct(item: TProduct): void- добавляет продукт в корзину
 - deleteProduct(Id: string): void- удаляет продукт из корзины по id
 - clearBasket(): void- очищает корзину
 
