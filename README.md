@@ -173,6 +173,7 @@ export type TForm = IContacts & IPayment;
 - listProduct: TProduct[] -  список продуктов
 - count: number - количество товаров в корзине
 - product: string[]-  список названий продуктов.
+- getTotal() - сумма заказа
 
 Так же класс предоставляет набор методов для взаимодействия с этими данными:
 - addProduct(item: TProduct): void- добавляет продукт в корзину

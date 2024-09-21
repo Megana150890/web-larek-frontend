@@ -29,9 +29,11 @@ export interface IBasket {
 listProduct: TProduct[]; // список продуктов
 count: number; // количество товаров в корзине
 product: string[]; // список названий продуктов
+total: number;
 addProduct(items: TProduct): void; //добавляет продукт в корзину
 deleteProduct(Id: string): void; //удаляет продукт из корзины по id
 clearBasket(): void; //очищает корзину
+getTotal(): number
 }
 
 export interface IFormGeneral { // интерфейс для работы с формамами
