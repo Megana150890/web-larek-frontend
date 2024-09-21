@@ -36,7 +36,7 @@ clearBasket(): void; //очищает корзину
 getTotal(): number
 }
 
-export interface IFormGeneral { // интерфейс для работы с формамами
+export interface IFormData { // интерфейс для работы с формамами
 formErrors: TFormErrors; // объект с ошибками валидации
 order: TForm; //данные формы заказа
 button: boolean; //состояние кнопки
@@ -44,11 +44,11 @@ checkValidationPayment(error: string): void;
 checkValidationContacts(error: string): void;
 }
 
-export type TFormErrors = Record<keyof TForm, string>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
+export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
 export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
 
-export type TForm = IContacts & IPayment;
+export type TForm = IPayment &  IContacts ;
 
 export interface IPage {
     cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине

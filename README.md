@@ -101,7 +101,7 @@ clearBasket(): void; //очищает корзину
 Интерфейс для работы с формами
 
 ```
-export interface IFormGeneral { // интерфейс для работы с формами
+export interface IFormData { // интерфейс для работы с формами
 formErrors: TFormErrors; // объект с ошибками валидации
 order: TForm; //данные формы заказа
 button: boolean; //состояние кнопки
@@ -113,7 +113,7 @@ checkValidationContacts(error: string): void;
 Тип для хранения ошибок форм
 
 ```
-export type TFormErrors = Record<keyof TForm, string>;
+export type TFormErrors = Partial<Record<keyof TForm, string>>;
 ```
 
 Данные товара для добавления в корзину
@@ -124,7 +124,7 @@ export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
 Данные, используемые в формах
 
 ```
-export type TForm = IContacts & IPayment;
+export type TForm = IPayment & IContacts ;
 ```
 
 ## `Архитектура приложения`
@@ -180,7 +180,7 @@ export type TForm = IContacts & IPayment;
 - deleteProduct(Id: string): void- удаляет продукт из корзины по id
 - clearBasket(): void- очищает корзину
 
-#### `Класс IFormGeneral`
+#### `Класс FormData`
 Класс отвечает за работу с формами.\
 В полях класса хранятся следующие данные:
 - formErrors: TFormErrors - объект с ошибками валидации
