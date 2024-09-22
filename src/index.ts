@@ -106,7 +106,7 @@ const api = new AppApi(CDN_URL, API_URL)
 
 // cardsdData.catalog = producttlist;
         
-     // Получаем лоты с сервера
+     // Получаем карточки с сервера
 api.getCatalogApi()
 .then(cardsdData.setCatalog.bind(cardsdData))
 .catch(err => {
