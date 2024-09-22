@@ -53,6 +53,7 @@ export class FormData extends Model<IFormData> {
 
 	checkValidationPayment() {
 		const errors: typeof this.formErrors = {};
+		
 		if (this.order.payment) {
 			errors.payment = 'Не выбран способ оплаты';
 		}

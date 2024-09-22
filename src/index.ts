@@ -15,6 +15,13 @@ const formData = new FormData({}, events);
 
 
 
+
+
+
+
+
+//проверки
+
 const producttlist =
     [
             {
@@ -117,3 +124,20 @@ console.log(basketData.product)
 console.log(basketData.product)
 console.log(basketData.getTotal())
 // basketData.getTotal();
+
+
+
+formData.setPayment('');
+formData.setAdress('4кевке');
+formData.setEmail('example@mail.com');
+formData.setPhone('+123456789');
+
+// Проверяем валидацию
+const isContactsValid = formData.checkValidationContacts(); // проверка контактов
+const isPaymentValid = formData.checkValidationPayment();   // проверка оплаты и адреса
+
+if (isContactsValid && isPaymentValid) {
+    console.log('Форма валидна');
+} else {
+    console.log('Ошибки валидации:', formData.formErrors);
+}

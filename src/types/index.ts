@@ -2,7 +2,7 @@ export interface ICard {
 	id: string;
     category: string;
 	description: string;
-    price: number;
+    price: number | null;
     image:string;
 	title: string;
 	
@@ -45,6 +45,16 @@ checkValidationPayment(error: string): void;
 checkValidationContacts(error: string): void;
 }
 
+export interface IOrder {
+    items: string[];
+	phone: string;
+	email: string;
+	address: string;
+	payment: string;
+	total: number;
+}
+
+
 export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
 export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
@@ -56,5 +66,4 @@ export interface IPage {
     catalog: HTMLElement[] //галлерея товаров
     cartButtonElement: HTMLElement; // кнопка для открытия корзины.
 }
-
 

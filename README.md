@@ -50,7 +50,7 @@ yarn build
 export interface ICard {
 	id: string;
 	description: string;
-    price: number;
+    price: number | null;
     image:string;
 	title: string;
 	category: string;
