@@ -5,6 +5,7 @@ import { EventEmitter } from './components/base/events';
 import './scss/styles.scss';
 import { API_URL, CDN_URL, settings } from './utils/constants';
 import { AppApi } from './components/base/api';
+import { Card } from './components/common/Card';
 
 
 
@@ -16,9 +17,10 @@ const formData = new FormData({}, events);
 
 // const baseApi = new Api(API_URL, settings)
 const api = new AppApi(CDN_URL, API_URL)
+const cardCatalogTemplate: HTMLTemplateElement = document.querySelector('#card-catalog')
+
 
 //проверки
-
 
 // const producttlist =
 //     [
@@ -114,6 +116,11 @@ api.getCatalogApi()
 });
 
 
+// const testSection = document.querySelector('.gallery');
+
+// const card = new Card('card', cardCatalogTemplate);
+
+
 
 // cardsdData.setCatalog(producttlist);
 // console.log(cardsdData.getCards())
@@ -133,17 +140,17 @@ api.getCatalogApi()
 
 
 
-formData.setPayment('');
-formData.setAdress('4кевке');
-formData.setEmail('example@mail.com');
-formData.setPhone('+123456789');
+// formData.setPayment('');
+// formData.setAdress('4кевке');
+// formData.setEmail('example@mail.com');
+// formData.setPhone('+123456789');
 
-// Проверяем валидацию
-const isContactsValid = formData.checkValidationContacts(); // проверка контактов
-const isPaymentValid = formData.checkValidationPayment();   // проверка оплаты и адреса
+// // Проверяем валидацию
+// const isContactsValid = formData.checkValidationContacts(); // проверка контактов
+// const isPaymentValid = formData.checkValidationPayment();   // проверка оплаты и адреса
 
-if (isContactsValid && isPaymentValid) {
-    console.log('Форма валидна');
-} else {
-    console.log('Ошибки валидации:', formData.formErrors);
-}
+// if (isContactsValid && isPaymentValid) {
+//     console.log('Форма валидна');
+// } else {
+//     console.log('Ошибки валидации:', formData.formErrors);
+// }
