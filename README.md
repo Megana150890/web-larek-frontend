@@ -200,7 +200,7 @@ export type TForm = IPayment & IContacts ;
 
 Поля:
 - cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
-- catalog: HTMLElement[] //галлерея товаров
+- catalog: HTMLElement //галлерея товаров
 - cartButtonElement: HTMLElement — кнопка для открытия корзины
 - _wrapper - обертка страницы
 

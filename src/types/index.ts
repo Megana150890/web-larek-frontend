@@ -64,6 +64,7 @@ export type TForm = IPayment &  IContacts ;
 export interface IPage {
     cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
     catalog: HTMLElement[] //галлерея товаров
+    locked: boolean;
     cartButtonElement: HTMLElement; // кнопка для открытия корзины.
 }
 
