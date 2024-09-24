@@ -6,18 +6,44 @@ import './scss/styles.scss';
 import { API_URL, CDN_URL, settings } from './utils/constants';
 import { AppApi } from './components/base/api';
 import { Card } from './components/common/Card';
+import { Page } from './components/common/Page';
+import { ICatalog } from './types';
+import { cloneTemplate } from './utils/utils';
 
 
 
 const events = new EventEmitter();
+const page = new Page(document.body, events);
 
 const basketData = new BasketData({}, events);
 const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
 // const baseApi = new Api(API_URL, settings)
-const api = new AppApi(CDN_URL, API_URL)
-const cardCatalogTemplate: HTMLTemplateElement = document.querySelector('#card-catalog')
+const api = new AppApi(CDN_URL, API_URL);
+     // Получаем карточки с сервера
+     api.getCatalogApi()
+     .then(cardsdData.setCatalog.bind(cardsdData))
+     .catch(err => {
+         console.error(err);
+     });
+     
+const cardCatalogTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
+
+events.on<ICatalog>('cards:changed', () => { //обновляет список карточек на странице
+page.catalog = cardsdData.catalog.map(item => {
+    const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
+        onClick: () => events.emit('card:select', item),
+    });
+    card.title = item.title
+	card.category = item.category;
+    card.image = item.image;
+	card.price = item.price + ' ' + 'синапсов';
+	return card.render();
+	});
+})
+
+// const cardContainer = 
 
 
 //проверки
@@ -108,12 +134,6 @@ const cardCatalogTemplate: HTMLTemplateElement = document.querySelector('#card-c
 
 // cardsdData.catalog = producttlist;
         
-     // Получаем карточки с сервера
-api.getCatalogApi()
-.then(cardsdData.setCatalog.bind(cardsdData))
-.catch(err => {
-    console.error(err);
-});
 
 
 // const testSection = document.querySelector('.gallery');
