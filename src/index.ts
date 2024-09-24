@@ -1,3 +1,4 @@
+import { ICard } from './types/index';
 import { CardsData } from './components/CardsData'
 import { FormData } from './components/FormData'
 import { BasketData } from './components/BasketData'
@@ -13,6 +14,9 @@ import { cloneTemplate } from './utils/utils';
 
 
 const events = new EventEmitter();
+events.onAll((event) => {
+    console.log(event.eventName, event.data)
+})
 const page = new Page(document.body, events);
 
 const basketData = new BasketData({}, events);
@@ -35,13 +39,18 @@ page.catalog = cardsdData.catalog.map(item => {
     const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
         onClick: () => events.emit('card:select', item),
     });
+    card.category = item.category;
     card.title = item.title
-	card.category = item.category;
     card.image = item.image;
 	card.price = item.price + ' ' + 'синапсов';
 	return card.render();
 	});
 })
+
+events.on('card:select', (item:ICard)  => {
+cardsdData.setPreview(item)
+})
+
 
 // const cardContainer = 
 

@@ -29,6 +29,8 @@ export class CardsData extends Model<ICatalog> {
 		}
 
 		this.events.emit('preview:changed', item);
+		// this.preview = item.id;
+		// this.emitChanges('preview:changed', item);
 	}
 
 	getCards() {
