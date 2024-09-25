@@ -5,7 +5,8 @@ import { ensureElement } from '../../utils/utils';
 
 export class Page extends Component<IPage> {
 	protected _cartCounterElement: HTMLElement;
-	protected _catalog: HTMLElement;
+	// protected _catalog: HTMLElement;
+	protected _cardList: HTMLElement;
 	protected _cartButtonElement: HTMLElement;
 	protected _wrapper: HTMLElement;
 
@@ -13,7 +14,7 @@ export class Page extends Component<IPage> {
 		super(container);
 
 		this._cartCounterElement = ensureElement('.header__basket-counter');
-		this._catalog = ensureElement<HTMLElement>('.gallery');
+		this._cardList = ensureElement<HTMLElement>('.gallery');
 		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
 		this._cartButtonElement = ensureElement<HTMLElement>('.header__basket');
 
@@ -26,8 +27,12 @@ export class Page extends Component<IPage> {
 		this.setText(this._cartCounterElement, String(value));
 	}
 
-	set catalog(items: HTMLElement[]) {
-		this._catalog.replaceChildren(...items); //заменяет тнкущиие элементы каталога новыми
+	// set catalog(items: HTMLElement[]) {
+	// 	this._catalog.replaceChildren(...items); //заменяет тнкущиие элементы каталога новыми
+	// }
+
+	set cardList(items: HTMLElement[]) {
+		this._cardList.replaceChildren(...items);
 	}
 
 	set locked(value: boolean) {

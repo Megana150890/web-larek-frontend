@@ -16,8 +16,10 @@ import { Modal } from './components/common/Modal';
 
 const events = new EventEmitter();
 events.onAll((event) => {
-	console.log(event.eventName, event.data);
+    console.log(event.eventName, event.data);
 });
+
+
 const page = new Page(document.body, events);
 
 const basketData = new BasketData({}, events);
@@ -36,32 +38,29 @@ api
 		console.error(err);
 	});
 
+//
+
+
 const cardCatalogTemplate: HTMLTemplateElement =
 	document.querySelector('#card-catalog');
 const cardPreviewTemplate: HTMLTemplateElement =
 	document.querySelector('#card-preview');
 
-events.on('cards:changed', () => {
-	//обновляет список карточек на странице
-	page.catalog = cardsdData.catalog.map((item) => {
-		const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
-			onClick: () => events.emit('card:select', item),
-		});
 
-        return card.render({
-            id: item.id,
-            title: item.title,
-            image: item.image,
-            category: item.category,
-            price: item.price ,
-          });
-		// card.category = item.category;
-		// card.title = item.title;
-		// card.image = item.image;
-		// card.price = item.price + ' ' + 'синапсов';
-		// return card.render();
-	});
-});
+    events.on('cards:changed', () => {
+       page.cardList = cardsdData.catalog.map((item) => {
+            const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
+                onClick: () => events.emit('card:select', item),
+            });
+            card.title = item.title;
+            card.category = item.category;
+            card.image = item.image;
+            card.price = item.price + ' ' + 'синапсов';
+            card.setCategory();
+            return card.render();
+        });
+    });
+
 
 
 events.on('card:select', (item: ICard) => {

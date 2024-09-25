@@ -16,7 +16,7 @@ export class Card extends Component<ICard> {
 	protected _button: HTMLButtonElement;
 
 	constructor(
-		protected blockName: string,
+		protected containerName: string,
 		container: HTMLElement,
 		actions?: ICardActions
 	) {
@@ -28,6 +28,7 @@ export class Card extends Component<ICard> {
 		this._title = ensureElement<HTMLElement>('.card__title', container);
 		this._category = container.querySelector('.card__category');
 		this._button = container.querySelector('.card__button');
+
 
 		if (actions?.onClick) {
 			if (this._button) {
@@ -47,7 +48,7 @@ export class Card extends Component<ICard> {
 	}
 
 	set image(value: string) {
-		this.setImage(this._image, value);
+		this.setImage(this._image, value, this.title);
 	}
 
 	set category(value: string) {
@@ -65,4 +66,26 @@ export class Card extends Component<ICard> {
 	get button(): HTMLButtonElement {
 		return this.button;
 	}
+
+	setCategory() {
+		switch (true) {
+			case this._category.textContent === 'софт-скил':
+				this._category.classList.add('card__category_soft');
+				break;
+			case this._category.textContent === 'другое':
+				this._category.classList.add('card__category_other');
+				break;
+			case this._category.textContent === 'хард-скил':
+				this._category.classList.add('card__category_hard');
+				break;
+			case this._category.textContent === 'дополнительное':
+				this._category.classList.add('card__category_additional');
+				break;
+			case this._category.textContent === 'кнопка':
+				this._category.classList.add('card__category_button');
+				break;
+
+		}
+	}
+
 }
