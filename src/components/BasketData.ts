@@ -37,7 +37,12 @@ export class BasketData extends Model<IBasket> {
 		this.events.emit('basket: changed', {listProduct: this.listProduct});
 	}
 
-	getTotal(): number {
-		return this.listProduct.reduce((total, item) => total + item.price, 0);
-	}
+	// getTotal(): number {
+	// 	return this.listProduct.reduce((total, item) => total + item.price, 0);
+	// }
+
+	getTotal() {
+		return this.listProduct.reduce((sum, next) => sum + next.price, 0);
+	  }
+
 }

@@ -21,26 +21,28 @@ export class CardsData extends Model<ICatalog> {
 		this.events.emit('cards:changed', {catalog: this.catalog});
 	}
 	setPreview(item: ICard) {
-		//метод для установки картоки для предпросмотра
-		if (item) {
-			this.preview = item.id; //устанавливаем id карточки
-		} else {
-			this.preview = null;
-		}
+		// //метод для установки картоки для предпросмотра
+		// if (item) {
+		// 	this.preview = item.id; //устанавливаем id карточки
+		// } else {
+		// 	this.preview = null;
+		// }
 
-		this.events.emit('preview:changed', item);
+		// this.events.emit('preview:changed', item);
 		// this.preview = item.id;
 		// this.emitChanges('preview:changed', item);
+		this.preview = item.id;
+		this.events.emit('preview:changed', item);
 	}
 
-	getCards() {
-		return this.catalog
-	  }
+	// getCards() {
+	// 	return this.catalog
+	//   }
 	
 
-	   getCard(id: string): ICard | undefined {
-        return this.catalog.find(item => item.id === id);
-    }
+	//    getCard(id: string): ICard | undefined {
+    //     return this.catalog.find(item => item.id === id);
+    // }
 
 	// toggleButton(state: boolean) {
 	//     this.button = state;

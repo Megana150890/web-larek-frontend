@@ -1,7 +1,7 @@
 import { ICard } from './types/index';
-import { CardsData } from './components/CardsData'
-import { FormData } from './components/FormData'
-import { BasketData } from './components/BasketData'
+import { CardsData } from './components/CardsData';
+import { FormData } from './components/FormData';
+import { BasketData } from './components/BasketData';
 import { EventEmitter } from './components/base/events';
 import './scss/styles.scss';
 import { API_URL, CDN_URL, settings } from './utils/constants';
@@ -9,51 +9,73 @@ import { AppApi } from './components/base/api';
 import { Card } from './components/common/Card';
 import { Page } from './components/common/Page';
 import { ICatalog } from './types';
-import { cloneTemplate } from './utils/utils';
+import { cloneTemplate, ensureElement } from './utils/utils';
+import { Modal } from './components/common/Modal';
 
 
 
 const events = new EventEmitter();
 events.onAll((event) => {
-    console.log(event.eventName, event.data)
-})
+	console.log(event.eventName, event.data);
+});
 const page = new Page(document.body, events);
 
 const basketData = new BasketData({}, events);
 const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
-// const baseApi = new Api(API_URL, settings)
+const modal = new  Modal(ensureElement<HTMLElement>('#modal-container'), events);
+
+
 const api = new AppApi(CDN_URL, API_URL);
-     // Получаем карточки с сервера
-     api.getCatalogApi()
-     .then(cardsdData.setCatalog.bind(cardsdData))
-     .catch(err => {
-         console.error(err);
-     });
-     
-const cardCatalogTemplate: HTMLTemplateElement = document.querySelector('#card-catalog');
-
-events.on<ICatalog>('cards:changed', () => { //обновляет список карточек на странице
-page.catalog = cardsdData.catalog.map(item => {
-    const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
-        onClick: () => events.emit('card:select', item),
-    });
-    card.category = item.category;
-    card.title = item.title
-    card.image = item.image;
-	card.price = item.price + ' ' + 'синапсов';
-	return card.render();
+// Получаем карточки с сервера
+api
+	.getCatalogApi()
+	.then(cardsdData.setCatalog.bind(cardsdData))
+	.catch((err) => {
+		console.error(err);
 	});
-})
 
-events.on('card:select', (item:ICard)  => {
-cardsdData.setPreview(item)
-})
+const cardCatalogTemplate: HTMLTemplateElement =
+	document.querySelector('#card-catalog');
+const cardPreviewTemplate: HTMLTemplateElement =
+	document.querySelector('#card-preview');
+
+events.on('cards:changed', () => {
+	//обновляет список карточек на странице
+	page.catalog = cardsdData.catalog.map((item) => {
+		const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
+			onClick: () => events.emit('card:select', item),
+		});
+
+        return card.render({
+            id: item.id,
+            title: item.title,
+            image: item.image,
+            category: item.category,
+            price: item.price ,
+          });
+		// card.category = item.category;
+		// card.title = item.title;
+		// card.image = item.image;
+		// card.price = item.price + ' ' + 'синапсов';
+		// return card.render();
+	});
+});
 
 
-// const cardContainer = 
+events.on('card:select', (item: ICard) => {
+	cardsdData.setPreview(item);
+});
 
+events.on('preview:change', (item: ICard) => {
+	const card = new Card('card', cloneTemplate(cardPreviewTemplate), {
+		onClick: () => events.emit('card:add ', item),
+	});
+	modal.render({content: card.render(item),});
+});
+
+// const cardContainer =
 
 //проверки
 
@@ -142,20 +164,15 @@ cardsdData.setPreview(item)
 //         ]
 
 // cardsdData.catalog = producttlist;
-        
-
 
 // const testSection = document.querySelector('.gallery');
 
 // const card = new Card('card', cardCatalogTemplate);
 
-
-
 // cardsdData.setCatalog(producttlist);
 // console.log(cardsdData.getCards())
 // console.log(cardsdData.getCard("c101ab44-ed99-4a54-990d-47aa2bb4e7d9"))
 // console.log(cardsdData.getCard("c101ab44-ed99-4a54-990d-47agtgha2bb4e7d9"))
-
 
 // basketData.addProduct({id: '848e86fc0-ca99-4e13-b164-b98d65928b53', title: "UI/UX-карандаш", price: 10000 });
 // basketData.addProduct({id: '90973ae5-285c-4b6f-a6d0-65d1d760b102', title: "Бэкенд-антистресс", price: 1000 });
@@ -166,8 +183,6 @@ cardsdData.setPreview(item)
 // console.log(basketData.product)
 // console.log(basketData.getTotal())
 // // basketData.getTotal();
-
-
 
 // formData.setPayment('');
 // formData.setAdress('4кевке');
