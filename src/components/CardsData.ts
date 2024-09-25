@@ -33,8 +33,8 @@ export class CardsData extends Model<ICatalog> {
 		this.events.emit('preview:changed', item);
 	}
 
-	getCards() {
-		return this.catalog
+	getPreview() {
+		return this.preview;
 	  }
 	
 

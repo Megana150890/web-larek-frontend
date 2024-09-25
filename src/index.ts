@@ -27,6 +27,9 @@ const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
 const modal = new  Modal(ensureElement<HTMLElement>('#modal-container'), events);
+// const modalContainer = ensureElement<HTMLElement>('#modal-container')
+// const modal =  new Modal(modalContainer, events)
+
 
 
 const api = new AppApi(CDN_URL, API_URL);
@@ -44,7 +47,7 @@ api
 const cardCatalogTemplate: HTMLTemplateElement =
 	document.querySelector('#card-catalog');
 const cardPreviewTemplate: HTMLTemplateElement =
-	document.querySelector('#card-preview');
+ensureElement<HTMLTemplateElement>('#card-preview')
 
 
     events.on('cards:changed', () => {
@@ -67,12 +70,14 @@ events.on('card:select', (item: ICard) => {
 	cardsdData.setPreview(item);
 });
 
-events.on('preview:change', (item: ICard) => {
-	const card = new Card('card', cloneTemplate(cardPreviewTemplate), {
-		onClick: () => events.emit('card:add ', item),
+events.on('preview:change', (card: ICard) => {
+	const cardinModal = new Card('card', cloneTemplate(cardPreviewTemplate), {
+		onClick: () => events.emit('card:add', card),
 	});
-	modal.render({content: card.render(item),});
+modal.render({ content: cardinModal.render(card) })
 });
+
+
 
 // const cardContainer =
 
