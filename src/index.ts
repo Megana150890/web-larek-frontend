@@ -27,8 +27,7 @@ const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
 const modal = new  Modal(ensureElement<HTMLElement>('#modal-container'), events);
-// const modalContainer = ensureElement<HTMLElement>('#modal-container')
-// const modal =  new Modal(modalContainer, events)
+
 
 
 
@@ -70,11 +69,23 @@ events.on('card:select', (item: ICard) => {
 	cardsdData.setPreview(item);
 });
 
-events.on('preview:change', (card: ICard) => {
+events.on('preview:changed', (card: ICard) => {
 	const cardinModal = new Card('card', cloneTemplate(cardPreviewTemplate), {
 		onClick: () => events.emit('card:add', card),
 	});
 modal.render({ content: cardinModal.render(card) })
+// modal.render({
+//     content: cardinModal.render({
+//         title: card.title,
+//         image: card.image,
+//         category: card.category,
+//         description: card.description,
+//         price: card.price,
+//         id: card.id,
+//     }),
+// });
+
+
 });
 
 
