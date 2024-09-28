@@ -12,6 +12,7 @@
   &_full {
     flex-direction: row;
     background-color: transparent;
+    position: relative;
 
     .card__title {
       flex-grow: 0;

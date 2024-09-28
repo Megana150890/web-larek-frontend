@@ -19,16 +19,6 @@ export class CardsData extends Model<ICatalog> {
 
 
 	setPreview(item: ICard) {
-		// //метод для установки картоки для предпросмотра
-		// if (item) {
-		// 	this.preview = item.id; //устанавливаем id карточки
-		// } else {
-		// 	this.preview = null;
-		// }
-
-		// this.events.emit('preview:changed', item);
-		// this.preview = item.id;
-		// this.emitChanges('preview:changed', item);
 		this.preview = item.id;
 		this.events.emit('preview:changed', item);
 	}

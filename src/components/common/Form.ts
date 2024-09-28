@@ -2,7 +2,7 @@ import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
 
 interface IFormError {
-	validate: boolean;
+	valid: boolean;
 	errors: string[];
 }
 
@@ -47,8 +47,8 @@ export class Form<T> extends Component<IFormError> {
 	}
 
     render(data: Partial<T> & IFormError) {
-		const { validate, errors, ...inputs } = data;
-		super.render({ validate, errors }); //передает в род.класс валидоность и ошибки
+		const { valid, errors, ...inputs } = data;
+		super.render({ valid, errors }); //передает в род.класс валидоность и ошибки
 		Object.assign(this, inputs); //обновляем поля формы на основе переданных данных
 		return this.container;
 	}

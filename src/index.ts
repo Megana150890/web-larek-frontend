@@ -1,4 +1,4 @@
-import { ICard } from './types/index';
+import { ICard, TProduct } from './types/index';
 import { CardsData } from './components/CardsData';
 import { FormData } from './components/FormData';
 import { BasketData } from './components/BasketData';
@@ -11,22 +11,41 @@ import { Page } from './components/common/Page';
 import { ICatalog } from './types';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Modal } from './components/common/Modal';
+import { Basket } from './components/common/Basket';
+// import { Product } from './components/common/Card';
+import { FormPayment } from './components/common/FormPayment'; 
+import { IPayment } from './types/index';
 
 
 
 const events = new EventEmitter();
+const page = new Page(document.body, events);
 events.onAll((event) => {
     console.log(event.eventName, event.data);
 });
 
 
-const page = new Page(document.body, events);
+const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
+const cardPreviewTemplate= ensureElement<HTMLTemplateElement>('#card-preview');
+// const cardBasketTemplate: HTMLTemplateElement = document.querySelector('#card-basket');
+const orderTemplate = ensureElement<HTMLTemplateElement>('#order');
+const cardBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
+const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
+
+
 
 const basketData = new BasketData({}, events);
 const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
 const modal = new  Modal(ensureElement<HTMLElement>('#modal-container'), events);
+// const basket = new Basket(cloneTemplate(basketTemplate), events);
+const basket = new Basket(cloneTemplate(basketTemplate), {
+	onClick: () => {
+		events.emit('order:open');
+	},
+});
+const order = new FormPayment (cloneTemplate(orderTemplate), events);
 
 
 
@@ -42,11 +61,6 @@ api
 
 //
 
-
-const cardCatalogTemplate: HTMLTemplateElement =
-	document.querySelector('#card-catalog');
-const cardPreviewTemplate: HTMLTemplateElement =
-ensureElement<HTMLTemplateElement>('#card-preview')
 
 
     events.on('cards:changed', () => {
@@ -69,26 +83,103 @@ events.on('card:select', (item: ICard) => {
 	cardsdData.setPreview(item);
 });
 
-events.on('preview:changed', (card: ICard) => {
+events.on('preview:changed', (item: ICard) => {
 	const cardinModal = new Card('card', cloneTemplate(cardPreviewTemplate), {
-		onClick: () => events.emit('card:add', card),
+		onClick: () => events.emit('card:add', item),
 	});
-modal.render({ content: cardinModal.render(card) })
-// modal.render({
-//     content: cardinModal.render({
-//         title: card.title,
-//         image: card.image,
-//         category: card.category,
-//         description: card.description,
-//         price: card.price,
-//         id: card.id,
-//     }),
-// });
+// modal.render({ content: cardinModal.render(card) })
+modal.render({
+    content: cardinModal.render({
+        title: item.title,
+        image: item.image,
+        category: item.category,
+        description:item.description,
+        price: item.price + ' ' + 'синапсов',
+        id: item.id,
+    }),
+});
 
+// cardinModal.setCategory();
+
+if (basketData.products.includes(item.id) || item.price === null) {
+	cardinModal.setDisabled(cardinModal.button, true);
+} else {
+	cardinModal.setDisabled(cardinModal.button, false);
+}
 
 });
 
 
+events.on('card:add', (card: ICard) => {
+    basketData.addProduct(card)
+})
+
+events.on('сard:delete', (card: ICard) => {
+    basketData.deleteProduct(card.id)
+})
+
+events.on('basket:changed', () => {
+	const cardArray = basketData.listProduct.map((item, index) => {
+		// basketData.setIndex();
+		const card = new Card ('card', cloneTemplate(cardBasketTemplate), {
+			onClick: () => events.emit('сard:delete', item),
+		});
+		// modal.render({
+		// 	content: basket.render(),
+		// });
+      
+      
+
+		return card.render({
+			title: item.title,
+			index: index + 1,
+			price: item.price + ' ' + 'синапсов' ,
+		});
+	});
+
+
+basket.items = cardArray;
+console.log(cardArray);
+console.log(basketData.listProduct)
+    basket.total =  basketData.getTotal();
+	// basket.selected =  basketData.listProduct;
+    page.cartCounterElement =  basketData.count;
+	
+});
+
+
+
+    events.on('basket:open', () => {
+        modal.render({
+            content: basket.render(),
+        });
+    });
+
+
+    events.on('order:open', () => {
+        modal.render({
+            content: order.render({
+                payment: '',
+                address: '',
+                valid: false,
+                errors: [],
+            }),
+        });
+    });
+    
+    events.on('payment.button:change', () => {
+        formData.order.payment = order.PaymentSelectedValue;
+        formData.checkValidationPayment();
+        if (formData.button && formData.order.address) {
+            events.emit('order:ready', formData.order);
+        }
+    });
+
+    
+// events.on('order.address:change', (data: { field: keyof IPayment; value: string }) => {
+// 		formData.setFormOrder(data.field, data.value);
+// 	}
+// );
 
 // const cardContainer =
 

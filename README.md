@@ -119,7 +119,7 @@ export type TFormErrors = Partial<Record<keyof TForm, string>>;
 Данные товара для добавления в корзину
 
 ```
-export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
+export type TProduct = Pick<ICard, 'id' | 'title' | 'price'> & {index: number};
 ```
 Данные, используемые в формах
 

@@ -9,6 +9,7 @@ export class Page extends Component<IPage> {
 	protected _cardList: HTMLElement;
 	protected _cartButtonElement: HTMLElement;
 	protected _wrapper: HTMLElement;
+	protected _count: HTMLElement;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container);
@@ -17,9 +18,8 @@ export class Page extends Component<IPage> {
 		this._cardList = ensureElement<HTMLElement>('.gallery');
 		this._wrapper = ensureElement<HTMLElement>('.page__wrapper');
 		this._cartButtonElement = ensureElement<HTMLElement>('.header__basket');
-
 		this._cartButtonElement.addEventListener('click', () => {
-			this.events.emit('bids:open');
+			this.events.emit('basket:open');
 		});
 	}
 

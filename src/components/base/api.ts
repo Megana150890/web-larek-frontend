@@ -1,7 +1,7 @@
 import { ICard } from "../../types";
+import { TForm} from "../../types";
+import { TTotal } from "../../types";
 import { IOrder } from "../../types";
-
-
 export type ApiListResponse<Type> = {
     total: number,
     items: Type[]
@@ -68,5 +68,6 @@ export class AppApi extends Api {
         return this.post('/order', order).then(
             (data: ApiListResponse<string>) => data);
     }
+
 
 }

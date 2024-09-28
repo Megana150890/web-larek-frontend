@@ -2,61 +2,63 @@ import { IPayment } from '../../types';
 import { IEvents } from '../base/events';
 import { Form } from './Form';
 
-class FormPayment extends Form<IPayment> {
+
+export class FormPayment extends Form<IPayment> {
 	protected _buttonsChoice: HTMLButtonElement[];
-	protected _paymentSelect = false;
-	protected _paymentValue = '';
+	protected _paymentSelect: boolean = false;
+	protected _paymentValue: string = '';
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
-
-		this._buttonsChoice = Array.from(container.querySelectorAll('button[name="payment"]'));
+		this._buttonsChoice = Array.from(container.querySelectorAll(`button[name]`));
+		
 		this._buttonsChoice.forEach((button) => {
-			button.addEventListener('click', () => this.handleButtonClick(button));
+			button.addEventListener('click', () => {
+				this.handlePaymentSelection(button);
+			});
 		});
 	}
 
-	protected handleButtonClick(button: HTMLButtonElement) {
-		this.toggleClass(button, 'button_alt-active');
-		this.choiceChange(button);
-		this._paymentSelect = true;
-		this._paymentValue = button.name;
-		this.events.emit('payment.button:change');
-	}
-
-	protected choiceChange(selectedButton: HTMLButtonElement) { //сбрасывает активный класс у всех кнопок, кроме выбранной
-		this._buttonsChoice.forEach((button) => {
-			if (button !== selectedButton) {
-				button.classList.remove('button_alt-active');
-			}
-		});
-	}
-
+	// Устанавливаем выбранное значение оплаты
 	set PaymentSelectedValue(value: string) {
 		this._paymentValue = value;
 	}
 
+	// Возвращаем выбранное значение оплаты
 	get PaymentSelectedValue(): string {
 		return this._paymentValue;
 	}
 
+	// Устанавливаем состояние выбора оплаты
 	set paymentSelectedState(value: boolean) {
 		this._paymentSelect = value;
 	}
 
+	// Возвращаем состояние выбора оплаты
 	get paymentSelectedState(): boolean {
 		return this._paymentSelect;
 	}
 
-	set adress(value: string) {
-      		(this.container.elements.namedItem('address') as HTMLInputElement).value =
-      			value;
-      	}
+	// Устанавливаем значение адреса
+	set address(value: string) {
+		(this.container.elements.namedItem('address') as HTMLInputElement).value = value;
+	}
 
-	resetPaymentSelection() { // сбрвсывает активный класс у кнопок и очищает
-		this._buttonsChoice.forEach((button) => button.classList.remove('button_alt-active'));
+	// Сброс выбора оплаты
+	resetPaymentSelection() {
+		this._buttonsChoice.forEach((button) => {
+			button.classList.remove('button_alt-active');
+		});
 		this._paymentSelect = false;
 		this._paymentValue = '';
 	}
-}
 
+	// Обработка выбора кнопки
+	private handlePaymentSelection(button: HTMLButtonElement) {
+		this.resetPaymentSelection(); // Сбрасываем все выборы
+		this.toggleClass(button, 'button_alt-active');
+		this._paymentSelect = true;
+		this._paymentValue = button.name;
+		this.events.emit('order.button:change');
+	}
+}

@@ -2,10 +2,10 @@ export interface ICard {
 	id: string;
     category: string;
 	description: string;
-    price: number | null;
+    price: string | number;
     image:string;
 	title: string;
-	
+	index: number;
 }
 
 export interface ICatalog {
@@ -18,7 +18,7 @@ export interface ICatalog {
 
 export interface IPayment {
     payment: string;
-    adress: string;
+    address: string;
 }
 
 export interface IContacts {
@@ -57,9 +57,10 @@ export interface IOrder {
 
 export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
-export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>;
+export type TProduct = Pick<ICard, 'id' | 'title' | 'price'> & {index: number};
 
 export type TForm = IPayment &  IContacts ;
+export type TTotal = Pick<IOrder , 'total' | 'items' >;
 
 export interface IPage {
     cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
