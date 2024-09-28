@@ -1,12 +1,12 @@
 import { IBasket, ICard } from '../types';
 import { Model } from './base/Model';
-import { TProduct } from '../types';
+// import { TProduct } from '../types';
 import { TTotal } from '../types';
 
 export class BasketData extends Model<IBasket> {
 	listProduct: ICard[] = []; //список продуктов
 	count: number; //количество товаров в корзине
-	products: string[] = []; //массив названий продуктов, которые добавлены в корзину
+	// products: string[] = []; //массив названий продуктов, которые добавлены в корзину
 	total: number;
 
 	addProduct(card: ICard): void {
@@ -38,13 +38,11 @@ export class BasketData extends Model<IBasket> {
 	// 	}
 	// }
 	getTotal(): number {
-		this.total = this.products.reduce((a, c) => {
-			const item = this.listProduct.find((it) => it.id === c);
-			if (!item || item.price === null) {
-				return a;
-			}
-			return a + Number(item.price);
-		}, 0);
+		this.total = this.listProduct.reduce((a, c) => {
+		if(!c || c.price === null){
+			return a;
+		} return a + Number (c.price);
+	}, 0);
 		return this.total;
 	}
 
@@ -56,20 +54,20 @@ export class BasketData extends Model<IBasket> {
 	// 	this.count = this.listProduct.length;
 	// }
 
-	getOrderList(): TTotal {
-		// возвращает объект с итоговой суммой и списком продуктов
-		return {
-			total: this.getTotal(),
-			items: this.products,
-		};
-	}
+	// getOrderList(): TTotal {
+	// 	// возвращает объект с итоговой суммой и списком продуктов
+	// 	return {
+	// 		total: this.getTotal(),
+	// 		items: this.products,
+	// 	};
+	// }
 
-	clearBasket() {
-		this.listProduct = [];
-		this.products = [];
-		// this.setIndex();
-		this.emitChanges('basket:changed', { listProduct: this.listProduct });
-	}
+	// clearBasket() {
+	// 	this.listProduct = [];
+	// 	this.products = [];
+	// 	// this.setIndex();
+	// 	this.emitChanges('basket:changed', { listProduct: this.listProduct });
+	// }
 
 	// updateProductList() {
 	// 	this.products = this.listProduct.map((product) => product.id);

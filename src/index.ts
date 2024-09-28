@@ -101,11 +101,6 @@ modal.render({
 
 // cardinModal.setCategory();
 
-if (basketData.products.includes(item.id) || item.price === null) {
-	cardinModal.setDisabled(cardinModal.button, true);
-} else {
-	cardinModal.setDisabled(cardinModal.button, false);
-}
 
 });
 
