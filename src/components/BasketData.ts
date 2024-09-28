@@ -5,9 +5,12 @@ import { TTotal } from '../types';
 
 export class BasketData extends Model<IBasket> {
 	listProduct: ICard[] = []; //список продуктов
-	count: number; //количество товаров в корзине
-	// products: string[] = []; //массив названий продуктов, которые добавлены в корзину
+	count: number = 0; //количество товаров в корзине
 	total: number;
+
+
+
+
 
 	addProduct(card: ICard): void {
 		// добпавляет продукт в корзину
@@ -17,18 +20,25 @@ export class BasketData extends Model<IBasket> {
 		);
 		if (!isProductInBasket) {
 			this.listProduct.push(card);
-			// this.toggleProductInBasket(card.id);
-			// this.updateProductList();
+			this.updateCount()
 			this.events.emit('basket:changed');
 		}
 	}
 
 	deleteProduct(id: string): void {
 		this.listProduct = this.listProduct.filter((element) => element.id !== id);
-		// this.setIndex();
-		// this.updateProductList();
+	
+		this.updateCount()
 		this.emitChanges('basket:changed', { listProduct: this.listProduct });
 	}
+
+// Метод для обновления количества товаров в корзине
+updateCount(): void {
+    this.count = this.listProduct.length;
+	this.emitChanges('basket:changed', {count: this.count});
+}
+
+
 
 	// toggleProductInBasket(id: string) { //не давет добавить повторно товар
 	// 	if (!this.products.includes(id)) {
@@ -46,38 +56,6 @@ export class BasketData extends Model<IBasket> {
 		return this.total;
 	}
 
-	// setIndex() {
-	// 	this.listProduct.forEach((product, index) => {
-	// 		//обновляет каждый индекс продутка и количество товаров
-	// 		product.index = index + 1;
-	// 	});
-	// 	this.count = this.listProduct.length;
-	// }
 
-	// getOrderList(): TTotal {
-	// 	// возвращает объект с итоговой суммой и списком продуктов
-	// 	return {
-	// 		total: this.getTotal(),
-	// 		items: this.products,
-	// 	};
-	// }
 
-	// clearBasket() {
-	// 	this.listProduct = [];
-	// 	this.products = [];
-	// 	// this.setIndex();
-	// 	this.emitChanges('basket:changed', { listProduct: this.listProduct });
-	// }
-
-	// updateProductList() {
-	// 	this.products = this.listProduct.map((product) => product.id);
-	// }
-
-	// updateProductList() {
-	// 	if (this.listProduct.length === 0) {
-	// 		this.products = [];
-	// 	} else {
-	// 		this.products = this.listProduct.map((product) => product.id);
-	// 	}
-	// }
 }

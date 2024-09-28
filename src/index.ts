@@ -137,7 +137,7 @@ basket.items = cardArray;
 console.log(cardArray);
 console.log(basketData.listProduct)
     basket.total =  basketData.getTotal();
-	// basket.selected =  basketData.listProduct;
+
     page.cartCounterElement =  basketData.count;
 	
 });
