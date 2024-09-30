@@ -1,4 +1,4 @@
-import { ICard, TProduct } from './types/index';
+import { ICard} from './types/index';
 import { CardsData } from './components/CardsData';
 import { FormData } from './components/FormData';
 import { BasketData } from './components/BasketData';
@@ -115,7 +115,7 @@ events.on('сard:delete', (card: ICard) => {
 
 events.on('basket:changed', () => {
 	const cardArray = basketData.listProduct.map((item, index) => {
-		// basketData.setIndex();
+
 		const card = new Card ('card', cloneTemplate(cardBasketTemplate), {
 			onClick: () => events.emit('сard:delete', item),
 		});
@@ -176,7 +176,7 @@ console.log(basketData.listProduct)
 // 	}
 // );
 
-// const cardContainer =
+
 
 //проверки
 

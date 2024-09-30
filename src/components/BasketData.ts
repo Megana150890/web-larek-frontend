@@ -1,7 +1,6 @@
 import { IBasket, ICard } from '../types';
 import { Model } from './base/Model';
-// import { TProduct } from '../types';
-import { TTotal } from '../types';
+
 
 export class BasketData extends Model<IBasket> {
 	listProduct: ICard[] = []; //список продуктов
@@ -13,8 +12,7 @@ export class BasketData extends Model<IBasket> {
 
 
 	addProduct(card: ICard): void {
-		// добпавляет продукт в корзину
-
+		// добавляет продукт в корзину
 		const isProductInBasket = this.listProduct.some(
 			(product) => product.id === card.id
 		);
@@ -38,15 +36,6 @@ updateCount(): void {
 	this.emitChanges('basket:changed', {count: this.count});
 }
 
-
-
-	// toggleProductInBasket(id: string) { //не давет добавить повторно товар
-	// 	if (!this.products.includes(id)) {
-	// 		this.products.push(id);
-	// 	} else {
-	// 		this.products = this.products.filter((item) => item !== id);
-	// 	}
-	// }
 	getTotal(): number {
 		this.total = this.listProduct.reduce((a, c) => {
 		if(!c || c.price === null){

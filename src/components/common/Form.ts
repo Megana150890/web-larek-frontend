@@ -36,7 +36,7 @@ export class Form<T> extends Component<IFormError> {
 	}
 
 	set validate(value: boolean) {
-		this._submitButton.disabled = !value; //Если value (true), кнопка будет активной, так как !value будет false.
+		this._submitButton.disabled = !value; //Если value (true), кнопка будет активной
 	}
 
 	protected inputChange(field: keyof T, value: string) {

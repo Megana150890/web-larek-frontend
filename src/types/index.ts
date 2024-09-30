@@ -27,14 +27,14 @@ export interface IContacts {
 }
 
 export interface IBasket {
-listProduct: TProduct[]; // список продуктов
+listProduct: ICard[]; // список продуктов
 count: number; // количество товаров в корзине
-product: string[]; // список названий продуктов
 total: number;
-addProduct(items: TProduct): void; //добавляет продукт в корзину
+addProduct(card: ICard): void; //добавляет продукт в корзину
 deleteProduct(Id: string): void; //удаляет продукт из корзины по id
 clearBasket(): void; //очищает корзину
 getTotal(): number
+updateCount(): void
 }
 
 export interface IFormData { // интерфейс для работы с формамами
@@ -57,7 +57,6 @@ export interface IOrder {
 
 export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
-export type TProduct = Pick<ICard, 'id' | 'title' | 'price'> & {index: number};
 
 export type TForm = IPayment &  IContacts ;
 export type TTotal = Pick<IOrder , 'total' | 'items' >;
