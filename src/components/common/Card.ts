@@ -58,8 +58,10 @@ export class Card extends Component<ICard> {
 		this.setText(this._description, value);
 	}
 
-	set price(value: string) {
-		this.setText(this._price, `${value} cинапсов`);
+	set price(value: number) {
+		value === null
+			? this.setText(this._price, 'Бесценно')
+			: this.setText(this._price, `${value} синапсов`);
 	}
 
 	set image(value: string) {

@@ -75,7 +75,7 @@ api
             card.title = item.title;
             card.category = item.category;
             card.image = item.image;
-            card.price = item.price + ' ' ;
+            card.price = item.price ;
             card.setCategory();
             return card.render();
         });
@@ -222,18 +222,21 @@ events.on('contacts:submit', () =>{
         total: basketData.getTotalBasketPrice(),
         ...formData.order
       })
-      .then(() => {
+      .then((res) => {
         modal.render({
             content: sucsess.render({
-                total: `Списано ${basketData.getTotalBasketPrice()} синапсов`,
+                total: `Списано ${res.total} синапсов`,
 				}),
             })
+            basketData.clearBasket();
         })
-        //   basketData.clearBasket();
+        
+        .catch((err) => {
+			console.error(err);
+		});
 } )
 
 events.on('order.button: sucsess', () => {
-        basketData.clearBasket();
     modal.close();
 })
 
