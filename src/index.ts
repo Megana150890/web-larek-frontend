@@ -8,7 +8,6 @@ import { API_URL, CDN_URL, settings } from './utils/constants';
 import { AppApi } from './components/base/api';
 import { Card } from './components/common/Card';
 import { Page } from './components/common/Page';
-import { ICatalog } from './types';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
@@ -103,7 +102,7 @@ modal.render({
     }),
 });
 
-// cardinModal.setCategory();
+
 
 
 });
@@ -134,8 +133,7 @@ events.on('basket:changed', () => {
 
 
 basket.items = cardArray;
-console.log(cardArray);
-console.log(basketData.listProduct)
+
     basket.total =  basketData.getTotalBasketPrice();
 
     page.cartCounterElement =  basketData.count;
