@@ -54,6 +54,7 @@ export interface ICard {
     image:string;
 	title: string;
 	category: string;
+    index: number;
 }
 ```
 Интерфейс для модели данных карточек
@@ -89,12 +90,14 @@ export interface IContacts {
 
 ```
 export interface IBasket {
-listProduct: TProduct[]; // список продуктов
+listProduct: ICard[]; // список продуктов
 count: number; // количество товаров в корзине
-product: string[]; // список названий продуктов
-addProduct(items: TProduct): void; //добавляет продукт в корзину
+total: number;
+addProduct(card: ICard): void; //добавляет продукт в корзину
 deleteProduct(Id: string): void; //удаляет продукт из корзины по id
 clearBasket(): void; //очищает корзину
+getTotal(): number
+updateCount(): void
 }
 ```
 

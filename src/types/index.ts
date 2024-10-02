@@ -3,7 +3,6 @@ export interface ICard {
     category: string;
 	description: string;
     price: number | null;
-    // price: string | number;
     image:string;
 	title: string;
 	index: number;
@@ -58,7 +57,7 @@ export interface IOrder {
 export type TForm = IPayment &  IContacts ;
 export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
-// export type TTotal = Pick<IOrder, 'total' | 'items' >;
+
 
 export interface IPage {
     cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
