@@ -27,10 +27,6 @@ export class Page extends Component<IPage> {
 		this.setText(this._cartCounterElement, String(value));
 	}
 
-	// set catalog(items: HTMLElement[]) {
-	// 	this._catalog.replaceChildren(...items); //заменяет тнкущиие элементы каталога новыми
-	// }
-
 	set cardList(items: HTMLElement[]) {
 		this._cardList.replaceChildren(...items);
 	}

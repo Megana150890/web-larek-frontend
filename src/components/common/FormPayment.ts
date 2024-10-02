@@ -5,8 +5,8 @@ import { Form } from './Form';
 
 export class FormPayment extends Form<IPayment> {
 	protected _buttonsChoice: HTMLButtonElement[];
-	protected _paymentSelect: boolean = false;
-	protected _paymentValue: string = '';
+	protected _paymentSelectedState: boolean;
+	protected _paymentValue: string;
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
@@ -14,51 +14,52 @@ export class FormPayment extends Form<IPayment> {
 		
 		this._buttonsChoice.forEach((button) => {
 			button.addEventListener('click', () => {
-				this.handlePaymentSelection(button);
+				this.toggleClass(button, 'button_alt-active');;
+				this.choiceChange(
+					button,
+					this._buttonsChoice.find((b) => b !== button)
+				);
+
+				this._paymentSelectedState = true;
+				this._paymentValue = button.name;
+				this.events.emit('order.button:change');
 			});
 		});
 	}
 
-	// Устанавливаем выбранное значение оплаты
 	set PaymentSelectedValue(value: string) {
 		this._paymentValue = value;
 	}
-
-	// Возвращаем выбранное значение оплаты
 	get PaymentSelectedValue(): string {
 		return this._paymentValue;
 	}
 
-	// Устанавливаем состояние выбора оплаты
 	set paymentSelectedState(value: boolean) {
-		this._paymentSelect = value;
+		this._paymentSelectedState = value;
 	}
 
-	// Возвращаем состояние выбора оплаты
 	get paymentSelectedState(): boolean {
-		return this._paymentSelect;
+		return this._paymentSelectedState;
 	}
 
-	// Устанавливаем значение адреса
 	set address(value: string) {
-		(this.container.elements.namedItem('address') as HTMLInputElement).value = value;
+		(this.container.elements.namedItem('address') as HTMLInputElement).value =
+			value;
 	}
-
-	// Сброс выбора оплаты
 	resetPaymentSelection() {
 		this._buttonsChoice.forEach((button) => {
 			button.classList.remove('button_alt-active');
 		});
-		this._paymentSelect = false;
+		this._paymentSelectedState = false;
 		this._paymentValue = '';
 	}
-
-	// Обработка выбора кнопки
-	private handlePaymentSelection(button: HTMLButtonElement) {
-		this.resetPaymentSelection(); // Сбрасываем все выборы
-		this.toggleClass(button, 'button_alt-active');
-		this._paymentSelect = true;
-		this._paymentValue = button.name;
-		this.events.emit('order.button:change');
+	choiceChange(
+		selectedButton: HTMLButtonElement,
+		otherButton: HTMLButtonElement
+	) {
+		if (selectedButton.classList.contains('button_alt-active')) {
+			otherButton.classList.remove('button_alt-active');
+		}
 	}
+
 }

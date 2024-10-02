@@ -1,7 +1,6 @@
 import { ICard } from '../../types';
 import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
-import { IEvents } from '../base/events';
 
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
@@ -29,12 +28,10 @@ export class Card extends Component<ICard> {
 		this._image = container.querySelector('.card__image');
 		this._title = ensureElement<HTMLElement>('.card__title', container);
 		this._category = container.querySelector('.card__category');
-		this._index = container.querySelector('.basket__item-index')
+		this._index = container.querySelector('.basket__item-index');
 		this._button = container.querySelector(
 			'.card__button'
 		) as HTMLButtonElement | null;
-
-
 
 		if (actions?.onClick) {
 			if (this._button) {
@@ -44,26 +41,25 @@ export class Card extends Component<ICard> {
 			}
 		}
 	}
-	
 
 	set id(value: string) {
 		this.container.dataset.id = value;
-	  }
-	
-	  get id(): string {
+	}
+
+	get id(): string {
 		return this.container.dataset.id || '';
-	  }
+	}
 
-	 set index(value: number) {
+	set index(value: number) {
+		this.setText(this._index, value);
+	}
 
-this.setText(this._index, value)
-	 }
 	set description(value: string) {
 		this.setText(this._description, value);
 	}
 
 	set price(value: string) {
-		this.setText(this._price, value);
+		this.setText(this._price, `${value} cинапсов`);
 	}
 
 	set image(value: string) {
@@ -103,9 +99,6 @@ this.setText(this._index, value)
 			case this._category.textContent === 'кнопка':
 				this._category.classList.add('card__category_button');
 				break;
-
 		}
 	}
-
 }
-

@@ -313,4 +313,4 @@ export type TForm = IPayment & IContacts ;
 - `order.address:change` - изменение поля ввода адреса
 - `contacts.phone.change` - именение в поле ввода телефона
 - `contacts.email.change` - именение в поле ввода почты
-- `payment.button:change` - вызывается при изменении способа оплаты в форме заказа
+- `order.button:change` - вызывается при изменении способа оплаты в форме заказа

@@ -1,4 +1,4 @@
-import { ICard} from './types/index';
+import { ICard, IContacts} from './types/index';
 import { CardsData } from './components/CardsData';
 import { FormData } from './components/FormData';
 import { BasketData } from './components/BasketData';
@@ -12,9 +12,12 @@ import { ICatalog } from './types';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/common/Basket';
-// import { Product } from './components/common/Card';
 import { FormPayment } from './components/common/FormPayment'; 
 import { IPayment } from './types/index';
+import { TForm } from './types/index';
+import { FormContacts } from './components/common/FormContacts';
+import { SucsessOrder } from './components/common/SucsessOrder';
+
 
 
 
@@ -27,11 +30,11 @@ events.onAll((event) => {
 
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardPreviewTemplate= ensureElement<HTMLTemplateElement>('#card-preview');
-// const cardBasketTemplate: HTMLTemplateElement = document.querySelector('#card-basket');
 const orderTemplate = ensureElement<HTMLTemplateElement>('#order');
 const cardBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
-
+const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts');
+const sucsessTemplate = ensureElement<HTMLTemplateElement>('#success');
 
 
 const basketData = new BasketData({}, events);
@@ -39,13 +42,14 @@ const cardsdData = new CardsData({}, events);
 const formData = new FormData({}, events);
 
 const modal = new  Modal(ensureElement<HTMLElement>('#modal-container'), events);
-// const basket = new Basket(cloneTemplate(basketTemplate), events);
 const basket = new Basket(cloneTemplate(basketTemplate), {
 	onClick: () => {
 		events.emit('order:open');
 	},
 });
 const order = new FormPayment (cloneTemplate(orderTemplate), events);
+const contacts = new FormContacts(cloneTemplate(contactsTemplate), events)
+const sucsess = new SucsessOrder(cloneTemplate(sucsessTemplate), events)
 
 
 
@@ -71,7 +75,7 @@ api
             card.title = item.title;
             card.category = item.category;
             card.image = item.image;
-            card.price = item.price + ' ' + 'синапсов';
+            card.price = item.price + ' ' ;
             card.setCategory();
             return card.render();
         });
@@ -94,7 +98,7 @@ modal.render({
         image: item.image,
         category: item.category,
         description:item.description,
-        price: item.price + ' ' + 'синапсов',
+        price: item.price ,
         id: item.id,
     }),
 });
@@ -119,16 +123,12 @@ events.on('basket:changed', () => {
 		const card = new Card ('card', cloneTemplate(cardBasketTemplate), {
 			onClick: () => events.emit('сard:delete', item),
 		});
-		// modal.render({
-		// 	content: basket.render(),
-		// });
-      
-      
+	
 
 		return card.render({
 			title: item.title,
 			index: index + 1,
-			price: item.price + ' ' + 'синапсов' ,
+			price: item.price  ,
 		});
 	});
 
@@ -136,7 +136,7 @@ events.on('basket:changed', () => {
 basket.items = cardArray;
 console.log(cardArray);
 console.log(basketData.listProduct)
-    basket.total =  basketData.getTotal();
+    basket.total =  basketData.getTotalBasketPrice();
 
     page.cartCounterElement =  basketData.count;
 	
@@ -161,21 +161,81 @@ console.log(basketData.listProduct)
             }),
         });
     });
+
     
-    events.on('payment.button:change', () => {
+    
+    events.on('order.button:change', () => {
         formData.order.payment = order.PaymentSelectedValue;
         formData.checkValidationPayment();
         if (formData.button && formData.order.address) {
-            events.emit('order:ready', formData.order);
+            events.emit('order:validation', formData.order);
         }
     });
 
-    
-// events.on('order.address:change', (data: { field: keyof IPayment; value: string }) => {
-// 		formData.setFormOrder(data.field, data.value);
-// 	}
-// );
 
+    
+events.on(
+	'order.address:change',
+	(data: { field: keyof IPayment; value: string }) => {
+		formData.setFormPayment(data.field, data.value);
+	}
+);
+
+events.on(
+	/^contacts\..*:change/,
+	(data: { field: keyof IContacts; value: string }) => {
+		formData.setFormContacts(data.field, data.value);
+	}
+);
+
+
+events.on('formErrors:change', (errors: Partial<TForm>) => {
+	const { email, phone, address, payment: button } = errors;
+	contacts.valid = !email && !phone;
+	contacts.errors = Object.values({ phone, email })
+		.filter((i) => !!i)
+		.join(';');
+
+	order.paymentSelectedState && (order.valid = !address);
+	order.errors = Object.values({ address, button })
+		.filter((i) => !!i)
+		.join(';');
+});
+
+
+events.on('order:submit', () => {
+    modal.render({
+        content: contacts.render({
+            email: '',
+            phone: '',
+            valid: false,
+            errors:[],
+        }),
+    })
+})
+
+ 
+events.on('contacts:submit', () =>{
+ 
+    api.postOrder({
+        items: basketData.getCardsId(),
+        total: basketData.getTotalBasketPrice(),
+        ...formData.order
+      })
+      .then(() => {
+        modal.render({
+            content: sucsess.render({
+                total: `Списано ${basketData.getTotalBasketPrice()} синапсов`,
+				}),
+            })
+        })
+        //   basketData.clearBasket();
+} )
+
+events.on('order.button: sucsess', () => {
+        basketData.clearBasket();
+    modal.close();
+})
 
 
 //проверки

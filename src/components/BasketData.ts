@@ -5,11 +5,11 @@ import { Model } from './base/Model';
 export class BasketData extends Model<IBasket> {
 	listProduct: ICard[] = []; //список продуктов
 	count: number = 0; //количество товаров в корзине
-	total: number;
 
 
-
-
+	getCardsId(): string[] {
+		return this.listProduct.map(card => card.id)
+	  }
 
 	addProduct(card: ICard): void {
 		// добавляет продукт в корзину
@@ -36,15 +36,14 @@ updateCount(): void {
 	this.emitChanges('basket:changed', {count: this.count});
 }
 
-	getTotal(): number {
-		this.total = this.listProduct.reduce((a, c) => {
-		if(!c || c.price === null){
-			return a;
-		} return a + Number (c.price);
-	}, 0);
-		return this.total;
+	 getTotalBasketPrice() {
+		return this.listProduct.reduce((sum, next) => sum + next.price, 0);
 	}
 
 
-
+	clearBasket() {
+		this.listProduct= [];
+		this.count = 0;
+		this.events.emit('basket:changed')
+	}
 }

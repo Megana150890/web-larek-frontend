@@ -2,7 +2,8 @@ export interface ICard {
 	id: string;
     category: string;
 	description: string;
-    price: string | number;
+    price: number | null;
+    // price: string | number;
     image:string;
 	title: string;
 	index: number;
@@ -46,7 +47,7 @@ checkValidationContacts(error: string): void;
 }
 
 export interface IOrder {
-    items: string[];
+    items: string [];
 	phone: string;
 	email: string;
 	address: string;
@@ -54,12 +55,10 @@ export interface IOrder {
 	total: number;
 }
 
-
+export type TForm = IPayment &  IContacts ;
 export type TFormErrors = Partial<Record<keyof TForm, string>>; //создаёт объект, где ключами являются поля формы TForm, а значениями — строки (ошибки)
 
-
-export type TForm = IPayment &  IContacts ;
-export type TTotal = Pick<IOrder , 'total' | 'items' >;
+// export type TTotal = Pick<IOrder, 'total' | 'items' >;
 
 export interface IPage {
     cartCounterElement: HTMLElement; //элемент, отображающий количество товаров в корзине
@@ -68,3 +67,6 @@ export interface IPage {
     cartButtonElement: HTMLElement; // кнопка для открытия корзины.
 }
 
+export interface IOrderResult {
+	total: number;
+}

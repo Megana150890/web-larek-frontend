@@ -6,6 +6,11 @@ interface IFormError {
 	errors: string[];
 }
 
+interface IFormError {
+	valid: boolean;
+	errors: string[];
+}
+
 export class Form<T> extends Component<IFormError> {
 	protected _submitButton: HTMLButtonElement;
 	protected _errors: HTMLElement;
@@ -35,7 +40,7 @@ export class Form<T> extends Component<IFormError> {
 		this.setText(this._errors, value);
 	}
 
-	set validate(value: boolean) {
+	set valid(value: boolean) {
 		this._submitButton.disabled = !value; //Если value (true), кнопка будет активной
 	}
 
@@ -48,8 +53,10 @@ export class Form<T> extends Component<IFormError> {
 
     render(data: Partial<T> & IFormError) {
 		const { valid, errors, ...inputs } = data;
-		super.render({ valid, errors }); //передает в род.класс валидоность и ошибки
+		super.render({ valid, errors }); //передает в род.класс валидность и ошибки
 		Object.assign(this, inputs); //обновляем поля формы на основе переданных данных
 		return this.container;
 	}
 }
+
+

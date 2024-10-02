@@ -1,8 +1,5 @@
 import { Component } from '../base/Component';
-import { IEvents } from '../base/events';
 import { createElement } from '../../utils/utils';
-import { EventEmitter } from '../base/events';
-
 import { ensureElement } from '../../utils/utils';
 
 interface IActions {
@@ -51,6 +48,8 @@ export class Basket extends Component<IBasketView> {
 		this.setText(this._total, `${total} синапсов`);
 		this.updateButtonState(total); // Обновляем состояние кнопки при изменении total
 	}
+	
+
 
 	buttonDisable(state: boolean) {
 		this.setDisabled(this._button, state);
