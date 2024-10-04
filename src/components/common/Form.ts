@@ -57,6 +57,8 @@ export class Form<T> extends Component<IFormError> {
 		Object.assign(this, inputs); //обновляем поля формы на основе переданных данных
 		return this.container;
 	}
+
+	
 }
 
 

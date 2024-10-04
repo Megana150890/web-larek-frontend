@@ -101,11 +101,9 @@ modal.render({
         id: item.id,
     }),
 });
-
-
-
-
+cardinModal.setCategory();
 });
+
 
 
 events.on('card:add', (card: ICard) => {
@@ -227,8 +225,9 @@ events.on('contacts:submit', () =>{
 				}),
             })
             basketData.clearBasket();
+            formData.resetForm();
+            order.resetPaymentSelection();
         })
-        
         .catch((err) => {
 			console.error(err);
 		});

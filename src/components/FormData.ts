@@ -4,7 +4,6 @@ import { TForm } from '../types/index';
 import { IFormData } from '../types/index';
 import { IEvents } from './base/events';
 
-
 export class FormData extends Model<IFormData> {
 	order: TForm = {
 		payment: '',
@@ -26,7 +25,7 @@ export class FormData extends Model<IFormData> {
 
 	setFormContacts(field: keyof TForm, value: string) {
 		this.order[field] = value;
-		this.checkValidationContacts()
+		this.checkValidationContacts();
 		// if (this.checkValidationContacts()) {
 		// 	this.events.emit('contacts:validation', this.order);
 		// }
@@ -48,7 +47,7 @@ export class FormData extends Model<IFormData> {
 
 	checkValidationPayment() {
 		const errors: typeof this.formErrors = {};
-		
+
 		if (!this.order.payment) {
 			errors.payment = 'Не выбран способ оплаты';
 		}
@@ -61,6 +60,14 @@ export class FormData extends Model<IFormData> {
 		return Object.keys(errors).length === 0;
 	}
 
-	
-
+	resetForm() {
+		this.order = {
+			payment: '',
+			address: '',
+			email: '',
+			phone: '',
+		};
+		this.button = false;
+		this.formErrors = {};
+	}
 }

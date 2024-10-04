@@ -13,6 +13,10 @@ export class BasketData extends Model<IBasket> {
 
 	addProduct(card: ICard): void {
 		// добавляет продукт в корзину
+
+		// if (card.price === null || card.price === 0) {
+		// 	return;
+		// }
 		const isProductInBasket = this.listProduct.some(
 			(product) => product.id === card.id
 		);

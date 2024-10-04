@@ -59,9 +59,14 @@ export class Card extends Component<ICard> {
 	}
 
 	set price(value: number) {
-		value === null
-			? this.setText(this._price, 'Бесценно')
-			: this.setText(this._price, `${value} синапсов`);
+		if (value === null || value === 0) {
+			this.setText(this._price, 'Бесценно');
+			this.toggleButton(false); // деактивируем кнопку для бесценного товара
+		} else {
+			this.setText(this._price, `${value} синапсов`);
+			this.toggleButton(true); // активируем кнопку для товаров с ценой
+		}
+		
 	}
 
 	set image(value: string) {
@@ -80,9 +85,14 @@ export class Card extends Component<ICard> {
 		this._button = element;
 	}
 
-	// get button(): HTMLButtonElement {
-	// 	return this.button;
-	// }
+
+
+	protected toggleButton(state: boolean) {
+		if (this._button) {
+			this._button.disabled = !state; // Если state === false, кнопка деактивируется
+		}
+	}
+
 
 	setCategory() {
 		switch (true) {
