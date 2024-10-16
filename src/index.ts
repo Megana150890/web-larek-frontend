@@ -134,7 +134,7 @@ basket.items = cardArray;
 
     basket.total =  basketData.getTotalBasketPrice();
 
-    page.cartCounterElement =  basketData.count;
+    page.cartCounterElement =  basketData.updateCount();
 	
 });
 

@@ -27,6 +27,7 @@ export class Basket extends Component<IBasketView> {
 		this._button = ensureElement<HTMLButtonElement>('.basket__button', this.container);
 
 		if (this._button) {
+			this.buttonDisable(true)
 			this._button.addEventListener('click', actions.onClick);
 		}
 	}

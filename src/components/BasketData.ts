@@ -4,7 +4,7 @@ import { Model } from './base/Model';
 
 export class BasketData extends Model<IBasket> {
 	listProduct: ICard[] = []; //список продуктов
-	count: number = 0; //количество товаров в корзине
+	// count: number; //количество товаров в корзине
 
 
 	getCardsId(): string[] {
@@ -35,9 +35,9 @@ export class BasketData extends Model<IBasket> {
 	}
 
 // Метод для обновления количества товаров в корзине
-updateCount(): void {
-    this.count = this.listProduct.length;
-	this.emitChanges('basket:changed', {count: this.count});
+updateCount() {
+	return this.listProduct.length;
+    // this.count = this.listProduct.length;	
 }
 
 	 getTotalBasketPrice() {
@@ -47,7 +47,7 @@ updateCount(): void {
 
 	clearBasket() {
 		this.listProduct= [];
-		this.count = 0;
+		// this.count = 0;
 		this.events.emit('basket:changed')
 	}
 }
